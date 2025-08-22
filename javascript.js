@@ -2,7 +2,7 @@ const board = document.getElementById('board');
 const cells = Array.from(document.getElementsByClassName('cell'));
 const message = document.getElementById('message');
 const restartBtn = document.getElementById('restart');
-let score = 0;
+let score = +localStorage.getItem('gatoScore') || 0; // Recupera el puntaje actual
 let highScore = +localStorage.getItem('gatoHighScore') || 0;
 let boardState = Array(9).fill('');
 let currentPlayer = 'X';
@@ -12,7 +12,7 @@ const winCombos = [
   [0,3,6],[1,4,7],[2,5,8],
   [0,4,8],[2,4,6]
 ];
-const resetScoreBtn = document.getElementById('reset-scores')
+const resetScoresBtn = document.getElementById('reset-scores'); // Unifica el nombre
 
 function updateScore() {
   const s = document.getElementById('score');
@@ -57,7 +57,7 @@ function checkDraw() {
 }
 
 function handleCellClick(e) {
-  const idx = +e.target.dataset.index;
+  const idx = +e.currentTarget.dataset.index; // Cambiado para que siempre sea la celda
   if (!gameActive || boardState[idx]) return;
   boardState[idx] = currentPlayer;
   renderBoard();
@@ -155,4 +155,3 @@ cells.forEach(cell => cell.addEventListener('keydown', e => {
 
 renderBoard();
 message.textContent = 'Tu turno';
-updateScore();
